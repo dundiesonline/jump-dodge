@@ -24,6 +24,14 @@ config/name="Jump Dodge"
 run/main_scene="res://levels/LevelTemplate.tscn"
 config/icon="res://icon.png"
 
+[display]
+
+window/size/width=360
+window/size/height=580
+window/handheld/orientation="portrait"
+window/stretch/mode="2d"
+window/stretch/aspect="expand"
+
 [input]
 
 move_left={
@@ -46,6 +54,12 @@ slide={
 "events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777234,"unicode":0,"echo":false,"script":null)
  ]
 }
+
+[layer_names]
+
+2d_render/layer_1="player"
+2d_render/layer_2="enemies"
+2d_render/layer_3="world"
 
 [rendering]
 
