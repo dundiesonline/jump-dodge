@@ -1,13 +1,17 @@
-extends Actor
+extends KinematicBody2D
+
+const FLOOR_NORMAL: = Vector2.UP;
+export var gravity: = 1000.00;
+
+var _velocity: = Vector2.ZERO;
 
 export var speed: = Vector2(250.0, 500.0);
-const running_speed = 300.00;
+const running_speed = 150.00;
 
 var direction = 1;
 var jump_times = 0;
 
 func _physics_process(delta: float) -> void:
-
 #	var is_jump_interrupted: = Input.is_action_just_released("jump") and _velocity.y < 0.0;
 #	var direction = get_direction();
 #	_velocity = calc_move_velocity(_velocity, direction, speed, is_jump_interrupted);
@@ -39,12 +43,12 @@ func _physics_process(delta: float) -> void:
 	new_velocity.x = direction * running_speed;
 	
 	_velocity = move_and_slide(new_velocity, FLOOR_NORMAL);
-
+	
 func flip_sprite() -> void:
-	if direction > 0:
-		get_node("AnimatedSprite").flip_h = false;
-	else:
-		get_node("AnimatedSprite").flip_h = true;
+		if direction > 0:
+			get_node("AnimatedSprite").flip_h = false;
+		else:
+			get_node("AnimatedSprite").flip_h = true;
 
 func get_direction() -> Vector2:
 	return Vector2(
