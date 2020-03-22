@@ -1,9 +1,9 @@
 extends PlayerState
 
-const state_type = PlayerStateType.JUMPING;
-const state_name = "JUMPING";
+const state_type = PlayerStateType.SPINNING;
+const state_name = "SPINNING";
 
-var just_started: bool = false;
+var process_loop = 0; #FAKE, FIX THIS SHIT
 
 func get_state_name() -> String:
 	return state_name;
@@ -13,27 +13,27 @@ func get_state_type() -> int:
 
 func do_enter(from_state):
 	play_animation(state_type);
-	just_started = true;
 
 func do_process(delta):
+	if process_loop > 30:
+		return PlayerStateType.FALLING;
+	
 	var new_velocity = player._velocity;
 	
-	print("j");
-	if just_started:
-		new_velocity.y = player.jumping_force * -1;
-	
-	new_velocity.y += player.gravity * delta;
-	
-	if new_velocity.y >= 0:
-		return PlayerStateType.FALLING;
-		
+	new_velocity.y = 0;
 	new_velocity.x = player.direction * player.jumping_distance;
 	
 	player._velocity = player.move_and_slide(new_velocity, player.FLOOR_NORMAL);
-	just_started = false;
+	process_loop += 1;
+	print(process_loop);
 	
 func do_handle_input(input: InputEvent):
 	if input.is_action_pressed("jump"):
-		print("a i")
-		return PlayerStateType.SPINNING;
+		print("a s")
+		return PlayerStateType.JUMPING;
 	return;
+
+func exit():
+	process_loop = 0;
+	
+	

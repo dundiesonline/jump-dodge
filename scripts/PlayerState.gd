@@ -7,11 +7,16 @@ onready var animated_sprite: AnimatedSprite = player.get_node("AnimatedSprite");
 const state_animation_map = {
 	PlayerStateType.IDLE: "idle",
 	PlayerStateType.RUNNING: "running",
-	PlayerStateType.JUMPING: "jumping"
+	PlayerStateType.JUMPING: "jumping",
+	PlayerStateType.FALLING: "falling",
+	PlayerStateType.SPINNING: "spinning"
 };
 
-func enter() -> void:
-	return
+func enter(from_state = null) -> void:
+	do_enter(from_state);
+
+func do_enter(from_state) -> void:
+	pass;
 
 func handle_input(input: InputEvent):
 	return do_handle_input(input);

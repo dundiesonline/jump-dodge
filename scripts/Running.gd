@@ -9,7 +9,7 @@ func get_state_name() -> String:
 func get_state_type() -> int:
 	return state_type;
 
-func enter():
+func do_enter(from_state):
 	play_animation(state_type);
 	
 func do_process(delta):

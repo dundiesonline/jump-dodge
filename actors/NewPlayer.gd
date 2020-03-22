@@ -3,20 +3,28 @@ extends KinematicBody2D
 onready var state_map = {
 	PlayerStateType.IDLE: $PlayerState/Idle,
 	PlayerStateType.RUNNING: $PlayerState/Running,
-	PlayerStateType.JUMPING: $PlayerState/Jumping
+	PlayerStateType.JUMPING: $PlayerState/Jumping,
+	PlayerStateType.FALLING: $PlayerState/Falling,
+	PlayerStateType.SPINNING: $PlayerState/Spinning
 }
 
 var current_state: PlayerState;
 var prev_state_type;
 var _velocity: = Vector2.ZERO; # change to velocity
 
+export var MAX_JUMPS = 2;
+
 const FLOOR_NORMAL: = Vector2.UP; #AUTOLOAD
 const running_speed = 300.00;
-const jumping_force = 500.00;
+const jumping_force = 300.00; #TODO different jump force in jumps? have a delay to make spin while falling +100?
+const jumping_distance = 300.00;
+const falling_distance = 200.00;
 const gravity = 1000.00;
 
-var loop = 0;
 var direction = 1;
+var spinned: bool = false;
+var jumping: bool = false;
+var jumps: int = 0;
 
 func _ready() -> void:
 	current_state = state_map[PlayerStateType.IDLE];
@@ -29,7 +37,7 @@ func _input(event: InputEvent) -> void:
 		change_state(new_state_type);
 	
 func _physics_process(delta: float) -> void:
-	print("PP");
+#	print("PP");
 	update_direction();
 	
 	var new_state_type = current_state.physics_process(delta);
