@@ -1,7 +1,8 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://assets/tilemap/Medieval_tiles_free.png" type="Texture" id=1]
 [ext_resource path="res://actors/Player.tscn" type="PackedScene" id=2]
+[ext_resource path="res://levels/Camera2D.gd" type="Script" id=3]
 
 [sub_resource type="ConvexPolygonShape2D" id=1]
 points = PoolVector2Array( 24, 16, 0, 16, 0, 16, 24, 16 )
@@ -43,3 +44,9 @@ tile_data = PoolIntArray( 65535, 0, 0, 10, 0, 0, 11, 0, 0, 12, 0, 0, 13, 0, 0, 1
 
 [node name="Player" parent="." instance=ExtResource( 2 )]
 position = Vector2( 176, 564 )
+
+[node name="Camera2D" type="Camera2D" parent="."]
+visible = false
+anchor_mode = 0
+current = true
+script = ExtResource( 3 )
