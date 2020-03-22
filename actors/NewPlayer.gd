@@ -7,6 +7,7 @@ onready var state_map = {
 }
 
 var current_state: PlayerState;
+var prev_state_type;
 var _velocity: = Vector2.ZERO; # change to velocity
 
 const FLOOR_NORMAL: = Vector2.UP; #AUTOLOAD
@@ -23,25 +24,29 @@ func _ready() -> void:
 	pass
 
 func _input(event: InputEvent) -> void:
-	pass;
-#	print(event);
+	var new_state_type = current_state.handle_input(event);
+	if new_state_type != null:
+		change_state(new_state_type);
 	
 func _physics_process(delta: float) -> void:
-	print("PP")
+	print("PP");
 	update_direction();
-	current_state.process(delta);
-	update_state_type();
-	pass
+	
+	var new_state_type = current_state.physics_process(delta);
+	
+	if new_state_type != null:
+		change_state(new_state_type);
+	else:
+		update_state_type();
 
-func change_state(state_type) -> void:
-#	print("c")
+func change_state(new_state_type) -> void:
+	prev_state_type = current_state.get_state_type();
 	current_state.exit();
-	current_state = state_map[state_type];
+	current_state = state_map[new_state_type];
 	current_state.enter();
-	pass
 
 func update_state_type() -> void:
-	if is_on_floor() and (current_state.value != PlayerStateType.RUNNING and current_state.value != PlayerStateType.IDLE):
+	if is_on_floor() and (current_state.get_state_type() != PlayerStateType.RUNNING and current_state.get_state_type() != PlayerStateType.IDLE):
 		change_state(PlayerStateType.RUNNING);
 
 func update_direction() -> void:

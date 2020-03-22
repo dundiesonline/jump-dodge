@@ -12,15 +12,18 @@ const state_animation_map = {
 
 func enter() -> void:
 	return
-	
-func process(delta: float) -> void:
-#	do_handle_action_button(delta);
-	do_process(delta);
-	do_post_process(delta);
-	return;
 
-func do_process(delta: float) -> void:
-	return
+func handle_input(input: InputEvent):
+	return do_handle_input(input);
+	
+func do_handle_input(input: InputEvent):
+	pass;
+	
+func physics_process(delta: float):
+	return do_process(delta);
+
+func do_process(delta: float):
+	return null;
 	
 func do_post_process(delta: float) -> void:
 	return;
