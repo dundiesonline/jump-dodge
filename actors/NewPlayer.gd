@@ -8,25 +8,33 @@ onready var state_map = {
 	PlayerStateType.SPINNING: $PlayerState/Spinning
 }
 
-onready var collisionShape = $CollisionShape2D;
+onready var collision_shape = $CollisionShape2D;
 
 var current_state: PlayerState;
 var prev_state_type;
 var _velocity: = Vector2.ZERO; # change to velocity
 
+var state_history = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+
 export var MAX_JUMPS = 2;
+export var MAX_SPINS = 2;
 
 const FLOOR_NORMAL: = Vector2.UP; #AUTOLOAD
 const running_speed = 300.00;
-const jumping_force = 500.00; #TODO different jump force in jumps? have a delay to make spin while falling +100?
+const jumping_force = 400.00; #TODO different jump force in jumps? have a delay to make spin while falling +100?
+const second_jumping_force = 580.00; #TODO different jump force in jumps? have a delay to make spin while falling +100?
+
 const jumping_distance = 300.00;
-const falling_distance = 200.00;
-const gravity = 1000.00;
+const second_jumping_distance = 250.00; #TODO different jump force in jumps? have a delay to make spin while falling +100?const falling_distance = 200.00;
+const falling_distance = 250.00;
+const spinning_distance = 200.00;
+const gravity = 1500.00;
 
 var direction = 1;
 var spinned: bool = false;
 var jumping: bool = false;
 var jumps: int = 0;
+var spins: int = 0;
 
 func _ready() -> void:
 	current_state = state_map[PlayerStateType.RUNNING];
@@ -50,22 +58,32 @@ func _physics_process(delta: float) -> void:
 		update_state_type();
 
 func change_state(new_state_type) -> void:
+	
+	if !is_valid_change_state(new_state_type, current_state.get_state_type()):
+		return;
 	prev_state_type = current_state.get_state_type();
-	current_state.exit();
+	current_state.exit(new_state_type);
 	
 	current_state = state_map[new_state_type];
-	print(current_state.get_state_name());
-	if current_state.get_state_type() ==  PlayerStateType.RUNNING || current_state.get_state_type() == PlayerStateType.IDLE || current_state.get_state_type() == PlayerStateType.FALLING:
-		collisionShape.disabled = false;
-#		collisionShape.disabl("disabled", false);
-	else:
-#		collisionShape.set_deferred("disabled", true);
-		collisionShape.disabled = true;
-	current_state.enter();
+	current_state.enter(prev_state_type);
+	state_history.push_front(new_state_type);
+	
+	if state_history.size() > 15:
+		state_history.remove(15);
+#	print(state_history)
 
+func is_valid_change_state(new_state_type: int, current_state_type: int) -> bool:
+	if new_state_type == PlayerStateType.JUMPING and jumps == MAX_JUMPS:
+		return false;
+	if new_state_type == PlayerStateType.SPINNING and spins == MAX_SPINS:
+		return false;
+	return true;
+	
 func update_state_type() -> void:
 	if is_on_floor() and (current_state.get_state_type() != PlayerStateType.RUNNING and current_state.get_state_type() != PlayerStateType.IDLE):
 		change_state(PlayerStateType.RUNNING);
+		jumps = 0;
+		spins = 0;
 
 func update_direction() -> void:
 	if is_on_wall():

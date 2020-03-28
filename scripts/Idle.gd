@@ -25,5 +25,3 @@ func do_handle_input(input: InputEvent):
 		return PlayerStateType.RUNNING;
 	return;
 
-func exit():
-	print("x i")
