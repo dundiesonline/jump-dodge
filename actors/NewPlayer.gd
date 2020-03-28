@@ -21,11 +21,15 @@ export var MAX_SPINS = 2;
 
 const FLOOR_NORMAL: = Vector2.UP; #AUTOLOAD
 const running_speed = 300.00;
+
 const jumping_force = 400.00; #TODO different jump force in jumps? have a delay to make spin while falling +100?
 const second_jumping_force = 580.00; #TODO different jump force in jumps? have a delay to make spin while falling +100?
 
 const jumping_distance = 300.00;
 const second_jumping_distance = 250.00; #TODO different jump force in jumps? have a delay to make spin while falling +100?const falling_distance = 200.00;
+
+const jumping_hit_wall_bounce_distance = 200.0;
+
 const falling_distance = 250.00;
 const spinning_distance = 200.00;
 const gravity = 1500.00;

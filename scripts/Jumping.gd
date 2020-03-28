@@ -27,6 +27,9 @@ func do_process(delta):
 			new_velocity.y = player.second_jumping_force * -1;
 			new_velocity.x = player.direction * player.second_jumping_distance;
 	
+	if player.is_on_wall():
+		new_velocity.x = new_velocity.x + (player.direction * player.jumping_hit_wall_bounce_distance);
+	
 	new_velocity.y += player.gravity * delta;
 	
 	if new_velocity.y >= 0:
