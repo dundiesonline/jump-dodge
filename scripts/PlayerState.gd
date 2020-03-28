@@ -2,7 +2,7 @@ extends Node
 class_name PlayerState
 
 onready var player = owner;
-onready var animated_sprite: AnimatedSprite = player.get_node("AnimatedSprite");
+onready var animation_player: AnimationPlayer = player.get_node("AnimationPlayer");
 
 const state_animation_map = {
 	PlayerStateType.IDLE: "idle",
@@ -44,4 +44,4 @@ func exit() -> void:
 	return
 
 func play_animation(state_type: int):
-	animated_sprite.play(state_animation_map[state_type]);
+	animation_player.play(state_animation_map[state_type]);

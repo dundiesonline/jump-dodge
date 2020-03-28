@@ -14,7 +14,7 @@ func do_enter(from_state):
 	play_animation(state_type);
 
 func do_process(delta):
-	print(player._velocity.y)
+#	print(player._velocity.y)
 	var new_velocity = player._velocity;
 	new_velocity.y += player.gravity * delta;
 	new_velocity.x = player.direction * player.falling_distance;

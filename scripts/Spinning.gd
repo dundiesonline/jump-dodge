@@ -15,7 +15,7 @@ func do_enter(from_state):
 	play_animation(state_type);
 
 func do_process(delta):
-	if process_loop > 30:
+	if process_loop > 15:
 		return PlayerStateType.FALLING;
 	
 	var new_velocity = player._velocity;
