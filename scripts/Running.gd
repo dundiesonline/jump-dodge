@@ -23,6 +23,9 @@ func do_process(delta):
 	
 func do_handle_input(input: InputEvent):
 	if input.is_action_pressed("jump"):
-		print("a r")
 		return PlayerStateType.JUMPING;
+		
+	elif input.is_action_pressed("slide"):
+		return PlayerStateType.SLIDING;
+		
 	return;

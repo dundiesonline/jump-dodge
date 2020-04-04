@@ -5,7 +5,8 @@ onready var state_map = {
 	PlayerStateType.RUNNING: $PlayerState/Running,
 	PlayerStateType.JUMPING: $PlayerState/Jumping,
 	PlayerStateType.FALLING: $PlayerState/Falling,
-	PlayerStateType.SPINNING: $PlayerState/Spinning
+	PlayerStateType.SPINNING: $PlayerState/Spinning,
+	PlayerStateType.SLIDING: $PlayerState/Sliding
 }
 
 onready var collision_shape = $CollisionShape2D;
@@ -22,13 +23,15 @@ export var MAX_SPINS = 2;
 const FLOOR_NORMAL: = Vector2.UP; #AUTOLOAD
 const running_speed = 300.00;
 
+const sliding_speed = 350.00;
+
 const jumping_force = 400.00; #TODO different jump force in jumps? have a delay to make spin while falling +100?
 const second_jumping_force = 580.00; #TODO different jump force in jumps? have a delay to make spin while falling +100?
 
 const jumping_distance = 300.00;
 const second_jumping_distance = 250.00; #TODO different jump force in jumps? have a delay to make spin while falling +100?const falling_distance = 200.00;
 
-const jumping_hit_wall_bounce_distance = 200.0;
+const jumping_hit_wall_bounce_distance = 200.0; #TODO fix bounce when jumping just before wall bounce
 
 const falling_distance = 250.00;
 const spinning_distance = 200.00;
@@ -84,7 +87,7 @@ func is_valid_change_state(new_state_type: int, current_state_type: int) -> bool
 	return true;
 	
 func update_state_type() -> void:
-	if is_on_floor() and (current_state.get_state_type() != PlayerStateType.RUNNING and current_state.get_state_type() != PlayerStateType.IDLE):
+	if is_on_floor() and (current_state.get_state_type() != PlayerStateType.RUNNING and current_state.get_state_type() != PlayerStateType.IDLE and current_state.get_state_type() != PlayerStateType.SLIDING):
 		change_state(PlayerStateType.RUNNING);
 		jumps = 0;
 		spins = 0;
