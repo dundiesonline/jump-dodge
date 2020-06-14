@@ -6,7 +6,8 @@ onready var state_map = {
 	PlayerStateType.JUMPING: $PlayerState/Jumping,
 	PlayerStateType.FALLING: $PlayerState/Falling,
 	PlayerStateType.SPINNING: $PlayerState/Spinning,
-	PlayerStateType.SLIDING: $PlayerState/Sliding
+	PlayerStateType.SLIDING: $PlayerState/Sliding,
+	PlayerStateType.DIE: $PlayerState/Die
 }
 
 onready var collision_shape = $CollisionShape2D;
@@ -44,6 +45,7 @@ var jumps: int = 0;
 var spins: int = 0;
 
 func _ready() -> void:
+	add_to_group(Game.GROUP_PLAYER);
 	current_state = state_map[PlayerStateType.RUNNING];
 	current_state.enter();
 	pass
@@ -52,6 +54,7 @@ func _input(event: InputEvent) -> void:
 	var new_state_type = current_state.handle_input(event);
 	if new_state_type != null:
 		change_state(new_state_type);
+		
 	
 func _physics_process(delta: float) -> void:
 #	print("PP");
@@ -103,3 +106,12 @@ func flip_sprite() -> void:
 	else:
 		get_node("Sprite").flip_h = true;
 
+
+func _on_ObstacleDetector_body_entered(body: Node) -> void:
+	
+	if body.is_in_group(Game.GROUP_OBSTACLES) and current_state.get_state_type() != PlayerStateType.SPINNING:
+		die();
+	pass # Replace with function body.
+
+func die() -> void:
+	change_state(PlayerStateType.DIE);

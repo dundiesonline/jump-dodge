@@ -7,6 +7,7 @@ enum {
 	JUMPING,
 	FALLING,
 	SPINNING,
-	SLIDING
+	SLIDING,
+	DIE
 }
 

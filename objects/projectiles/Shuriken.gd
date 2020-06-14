@@ -8,6 +8,7 @@ const FLOOR_NORMAL: = Vector2.UP; #AUTOLOAD
 onready var animation_player: AnimationPlayer = self.get_node("AnimationPlayer");
 
 func _ready() -> void:
+	add_to_group(Game.GROUP_OBSTACLES);
 	animation_player.play("spinning")
 
 func _physics_process(delta: float) -> void:

@@ -11,7 +11,8 @@ const state_animation_map = {
 	PlayerStateType.JUMPING: "jumping",
 	PlayerStateType.FALLING: "falling",
 	PlayerStateType.SPINNING: "spinning",
-	PlayerStateType.SLIDING: "sliding"
+	PlayerStateType.SLIDING: "sliding",
+	PlayerStateType.DIE: "die",
 };
 
 func enter(from_state = null) -> void:

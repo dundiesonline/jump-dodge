@@ -36,6 +36,10 @@ config/name="Jump Dodge"
 run/main_scene="res://levels/LevelTemplate.tscn"
 config/icon="res://icon.png"
 
+[autoload]
+
+Game="*res://autoload/Game.gd"
+
 [display]
 
 window/size/width=360
